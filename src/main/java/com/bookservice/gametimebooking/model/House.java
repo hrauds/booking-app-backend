@@ -30,7 +30,7 @@ public class House {
         this.address = address;
     }
 
-    public void addServices(Service service) {
+    public void addService(Service service) {
         services.add(service);
         service.setHouse(this);
     }
