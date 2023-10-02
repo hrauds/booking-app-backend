@@ -28,4 +28,10 @@ public class CustomerController {
     public CustomerDto getCustomer(@PathVariable Long id) {
         return customerService.getCustomer(id);
     }
+
+    @PutMapping("/{id}")
+    public void updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
+        customerService.updateCustomer(id, customerDto);
+    }
+
 }
