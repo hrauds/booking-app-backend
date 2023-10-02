@@ -22,7 +22,8 @@ public class CustomerService {
     }
 
     public CustomerDto getCustomer(Long id) {
-        var customer = customerRepository.getReferenceById(id);
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
         return customerMapper.toCustomerDto(customer);
     }
 
@@ -38,4 +39,10 @@ public class CustomerService {
         customerRepository.save(customer);
     }
 
+    public void deleteCustomer(Long id) {
+        if (!customerRepository.existsById(id)) {
+            throw new RuntimeException("Customer not found" );
+        }
+        customerRepository.deleteById(id);
+    }
 }
