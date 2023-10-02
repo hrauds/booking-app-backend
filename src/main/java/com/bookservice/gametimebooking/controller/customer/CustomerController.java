@@ -5,6 +5,8 @@ import com.bookservice.gametimebooking.service.customer.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/customer")
 @AllArgsConstructor
@@ -15,6 +17,11 @@ public class CustomerController {
     @PostMapping
     public void addCustomer(@RequestBody CustomerDto customer) {
         customerService.addCustomer(customer);
+    }
+
+    @GetMapping
+    public List<CustomerDto> getAllCustomers() {
+        return customerService.getAllCustomers();
     }
 
     @GetMapping("/{id}")
