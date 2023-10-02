@@ -6,6 +6,9 @@ import com.bookservice.gametimebooking.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class CustomerService {
@@ -21,5 +24,9 @@ public class CustomerService {
     public CustomerDto getCustomer(Long id) {
         var customer = customerRepository.getReferenceById(id);
         return customerMapper.toCustomerDto(customer);
+    }
+
+    public List<CustomerDto> getAllCustomers() {
+        return customerRepository.findAll().stream().map(customerMapper::toCustomerDto).collect(Collectors.toList());
     }
 }
