@@ -20,7 +20,7 @@ public class House {
     private String address;
 
     @ManyToOne
-    private Manager manager;
+    private Company company;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Service> services = new HashSet<>();

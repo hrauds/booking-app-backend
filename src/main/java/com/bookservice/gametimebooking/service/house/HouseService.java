@@ -5,9 +5,9 @@ import com.bookservice.gametimebooking.controller.house.dto.CreateHouseResponse;
 import com.bookservice.gametimebooking.controller.house.dto.HouseResponse;
 import com.bookservice.gametimebooking.controller.house.dto.OverwriteHouseRequest;
 import com.bookservice.gametimebooking.model.House;
-import com.bookservice.gametimebooking.model.Manager;
+import com.bookservice.gametimebooking.model.Company;
 import com.bookservice.gametimebooking.repository.HouseRepository;
-import com.bookservice.gametimebooking.repository.ManagerRepository;
+import com.bookservice.gametimebooking.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,17 +19,17 @@ import java.util.stream.Collectors;
 public class HouseService {
 
     private HouseRepository houseRepository;
-    private ManagerRepository managerRepository;
+    private CompanyRepository companyRepository;
 
     private HouseMapper houseMapper;
 
     public CreateHouseResponse createHouse(CreateHouseRequest createHouseRequest) {
-        Manager manager = managerRepository.findById(createHouseRequest.getManagerId())
-                .orElseThrow(() -> new RuntimeException("Manager not found"));
+        Company company = companyRepository.findById(createHouseRequest.getCompanyId())
+                .orElseThrow(() -> new RuntimeException("Company not found"));
 
         House house = houseMapper.toEntity(createHouseRequest);
 
-        manager.addHouse(house);
+        company.addHouse(house);
 
         houseRepository.save(house);
 
