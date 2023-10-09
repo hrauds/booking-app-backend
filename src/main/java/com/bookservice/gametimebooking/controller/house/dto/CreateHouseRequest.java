@@ -9,5 +9,5 @@ public class CreateHouseRequest {
 
     private String address;
 
-    private Long managerId;
+    private Long companyId;
 }

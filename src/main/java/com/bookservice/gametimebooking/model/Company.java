@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Manager {
+public class Company {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,16 +19,16 @@ public class Manager {
 
     private String name;
 
-    @OneToMany(mappedBy = "manager", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<House> houses = new HashSet<>();
 
     @Builder
-    public Manager(String name) {
+    public Company(String name) {
         this.name = name;
     }
 
     public void addHouse(House house) {
         houses.add(house);
-        house.setManager(this);
+        house.setCompany(this);
     }
 }
