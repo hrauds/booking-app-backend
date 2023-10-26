@@ -10,14 +10,16 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "services")
 public class Service {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    private String ServiceName;
+    @Column(nullable = false)
+    private String serviceName;
 
     @ManyToOne
     private House house;
@@ -27,7 +29,7 @@ public class Service {
 
     @Builder
     public Service(String serviceName) {
-        ServiceName = serviceName;
+        this.serviceName = serviceName;
     }
 
     public void addResource(Resource resource) {

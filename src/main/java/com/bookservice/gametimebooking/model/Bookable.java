@@ -1,24 +1,41 @@
 package com.bookservice.gametimebooking.model;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "bookables")
 public class Bookable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
+
+    private LocalDate date;
+
+    private DayOfWeek dayOfWeek;
+
+    @Column(nullable = false)
+    private LocalTime startTime;
+
+    @Column(nullable = false)
+    private LocalTime endTime;
 
     @ManyToOne
     private Resource resource;
 
-    //Todo: Figure out how to store data about resource availability (OPEN-hours)?
+    @Builder
+    public Bookable(LocalTime startTime, LocalTime endTime, Resource resource) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.resource = resource;
+    }
 }
