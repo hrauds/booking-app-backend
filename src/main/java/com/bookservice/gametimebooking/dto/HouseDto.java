@@ -1,11 +1,13 @@
-package com.bookservice.gametimebooking.controller.house.dto;
+package com.bookservice.gametimebooking.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CreateHouseRequest {
+public class HouseDto {
+
+    private Long id;
 
     private String address;
 

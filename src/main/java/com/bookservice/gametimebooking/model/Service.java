@@ -22,6 +22,7 @@ public class Service {
     private String serviceName;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private House house;
 
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)

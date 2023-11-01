@@ -30,6 +30,7 @@ public class Bookable {
     private LocalTime endTime;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Resource resource;
 
     @Builder

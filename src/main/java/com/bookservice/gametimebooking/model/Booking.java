@@ -24,9 +24,11 @@ public class Booking {
     private LocalDateTime endTime;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Resource resource;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Customer customer;
 
     @Builder
