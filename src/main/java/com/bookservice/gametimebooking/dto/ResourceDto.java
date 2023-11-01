@@ -1,11 +1,13 @@
-package com.bookservice.gametimebooking.controller.resource.dto;
+package com.bookservice.gametimebooking.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class CreateResourceRequest {
+public class ResourceDto {
+
+    private Long id;
 
     private String resourceName;
 

@@ -1,8 +1,9 @@
-package com.bookservice.gametimebooking.controller.customer;
+package com.bookservice.gametimebooking.controller;
 
-import com.bookservice.gametimebooking.controller.customer.dto.CustomerDto;
-import com.bookservice.gametimebooking.service.customer.CustomerService;
+import com.bookservice.gametimebooking.dto.CustomerDto;
+import com.bookservice.gametimebooking.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,8 +16,8 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping
-    public void addCustomer(@RequestBody CustomerDto customer) {
-        customerService.addCustomer(customer);
+    public CustomerDto addCustomer(@RequestBody CustomerDto customerDto) {
+        return customerService.addCustomer(customerDto);
     }
 
     @GetMapping
@@ -30,11 +31,13 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
         customerService.updateCustomer(id, customerDto);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable Long id) {
         customerService.deleteCustomer(id);
     }

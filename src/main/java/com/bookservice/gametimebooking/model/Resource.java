@@ -22,6 +22,7 @@ public class Resource {
     private String resourceName;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Service service;
 
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -21,7 +21,8 @@ public class House {
     @Column(nullable = false)
     private String address;
 
-    @ManyToOne()
+    @ManyToOne
+    @JoinColumn(nullable = false)
     private Company company;
 
     @OneToMany(mappedBy = "house", cascade = CascadeType.ALL, orphanRemoval = true)
