@@ -11,5 +11,5 @@ public class ServiceDto {
 
     private String serviceName;
 
-    private String houseId;
+    private Long houseId;
 }

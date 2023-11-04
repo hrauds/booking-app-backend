@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class CompanyService {
 
-    CompanyRepository companyRepository;
-    CompanyMapper companyMapper;
+    private CompanyRepository companyRepository;
+    private CompanyMapper companyMapper;
 
     public CompanyDto createCompany(CompanyDto companyDto) {
         Company company = companyMapper.toEntity(companyDto);
