@@ -58,4 +58,12 @@ public class ServiceService {
         }
         serviceRepository.deleteById(id);
     }
+
+    public List<ServiceDto> getServicesByHouseId(Long houseId) {
+        if (!houseRepository.existsById(houseId)) {
+            throw new RuntimeException("House not found");
+        }
+        List<com.bookservice.gametimebooking.model.Service> services = serviceRepository.findServicesByHouse_Id(houseId);
+        return services.stream().map(serviceMapper::toDto).collect(Collectors.toList());
+    }
 }

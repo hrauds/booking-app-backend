@@ -40,4 +40,9 @@ public class ServiceController {
     public void deleteServiceById(@PathVariable Long id) {
         serviceService.deleteById(id);
     }
+
+    @GetMapping("/byHouseId/{houseId}")
+    public List<ServiceDto> getServicesByHouseId(@PathVariable Long houseId) {
+        return serviceService.getServicesByHouseId(houseId);
+    }
 }
