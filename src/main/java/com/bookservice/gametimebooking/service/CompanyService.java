@@ -1,6 +1,7 @@
 package com.bookservice.gametimebooking.service;
 
 import com.bookservice.gametimebooking.dto.CompanyDto;
+import com.bookservice.gametimebooking.exceptions.CompanyNotFoundException;
 import com.bookservice.gametimebooking.mapper.CompanyMapper;
 import com.bookservice.gametimebooking.model.Company;
 import com.bookservice.gametimebooking.repository.CompanyRepository;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -18,6 +18,7 @@ public class CompanyService {
 
     private CompanyRepository companyRepository;
     private CompanyMapper companyMapper;
+    private static final String COMPANY_NOT_FOUND_ERROR_MESSAGE = "Company not found";
 
     public CompanyDto createCompany(CompanyDto companyDto) {
         Company company = companyMapper.toEntity(companyDto);
@@ -26,25 +27,27 @@ public class CompanyService {
     }
 
     public List<CompanyDto> getAllCompanies() {
-        return companyRepository.findAll().stream().map(companyMapper::toDto).collect(Collectors.toList());
+        return companyRepository.findAll().stream()
+                .map(companyMapper::toDto)
+                .toList();
     }
 
     public CompanyDto getCompanyById(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE));
         return companyMapper.toDto(company);
     }
 
     public void overwriteCompanyById(Long id, CompanyDto companyDto) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Company not found"));
+                .orElseThrow(() -> new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE));
         companyMapper.partialUpdate(company, companyDto);
         companyRepository.save(company);
     }
 
     public void deleteById(Long id) {
         if (!companyRepository.existsById(id)) {
-            throw new RuntimeException("Company not found");
+            throw new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE);
         }
         companyRepository.deleteById(id);
     }
