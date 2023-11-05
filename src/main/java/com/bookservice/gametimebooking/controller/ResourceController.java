@@ -32,8 +32,8 @@ public class ResourceController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void overwriteResourceById(@PathVariable Long id, @RequestBody ResourceDto resourceDto) {
-        resourceService.overwriteResourceById(id, resourceDto);
+    public void overwriteResourceById(@PathVariable Long id) {
+        resourceService.overwriteResourceById(id);
     }
 
     @DeleteMapping("/{id}")
