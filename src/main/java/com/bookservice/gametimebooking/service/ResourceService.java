@@ -42,11 +42,11 @@ public class ResourceService {
         return resourceMapper.toDto(resource);
     }
 
-    public void overwriteResourceById(Long id) {
+    public void overwriteResourceById(Long id, ResourceDto resourceDto) {
         Resource resource = resourceRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_ERROR_MESSAGE));
 
-        resource.setResourceName(resource.getResourceName());
+        resource.setResourceName(resourceDto.getResourceName());
 
         resourceRepository.save(resource);
     }
