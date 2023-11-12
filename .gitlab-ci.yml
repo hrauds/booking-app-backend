@@ -9,6 +9,7 @@ build iti0302-2023-backend:
       - main
   tags:
     - main
+
   script:
     - ./mvnw package
     - docker build -t iti0302-2023-backend .
