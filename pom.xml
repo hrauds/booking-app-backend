@@ -110,6 +110,16 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+
+			<!-- Add the spring-boot-maven-plugin -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.bookservice.gametimebooking.GameTimeBookingApplication</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
