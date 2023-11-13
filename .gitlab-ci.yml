@@ -6,7 +6,7 @@ build iti0302-2023-backend:
   stage: build
   only:
     refs:
-      - master
+      - main
   tags:
     - main
 
@@ -19,7 +19,7 @@ deploy iti0302-2023-backend:
   stage: deploy
   only:
     refs:
-      - master
+      - main
   tags:
     - main
   script:
