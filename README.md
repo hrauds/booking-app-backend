@@ -9,3 +9,6 @@ This application allows users to book game time slots.
 - **Database:** [PostgreSQL](https://www.postgresql.org/)
 
 ## Setup
+Backend
+- in terminal: docker-compose up -d
+- run backend app
