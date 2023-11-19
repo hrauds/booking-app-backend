@@ -23,7 +23,7 @@ deploy iti0302-2023-backend:
   tags:
     - main
   script:
-    - cd /opt/iti0302-2023-backend
+    - cd /opt/iti0302
     - docker-compose down
     - docker-compose up -d
     
