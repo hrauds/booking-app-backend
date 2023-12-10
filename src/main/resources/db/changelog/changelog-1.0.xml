@@ -136,4 +136,19 @@
                                  referencedTableName="resources" referencedColumnNames="id"/>
     </changeSet>
 
+    <changeSet id="10.12.2023 Create User table" author="Ignat Jasevits">
+        <createTable tableName="users">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="user_name" type="Varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="Varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password_hash" type="Varchar(255)"/>
+        </createTable>
+    </changeSet>
+
 </databaseChangeLog>
