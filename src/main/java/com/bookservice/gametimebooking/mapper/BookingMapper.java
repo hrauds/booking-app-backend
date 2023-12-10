@@ -6,5 +6,5 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-public class BookingMapper {
+public interface BookingMapper {
 }
