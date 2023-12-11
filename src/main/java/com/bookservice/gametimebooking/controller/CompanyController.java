@@ -9,34 +9,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class CompanyController {
 
     private CompanyService companyService;
 
-    @PostMapping
+    private static final String ENDPOINT_NAME = "/company";
+    private static final String OPEN_ENDPOINT_PREFIX = "/open";
+
+    @PostMapping(ENDPOINT_NAME)
     public CompanyDto createCompany(@RequestBody CompanyDto companyDto){
         return companyService.createCompany(companyDto);
     }
 
-    @GetMapping
+    @GetMapping(ENDPOINT_NAME)
     public List<CompanyDto> getAlCompanies() {
         return companyService.getAllCompanies();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(ENDPOINT_NAME + "/{id}")
     public CompanyDto getCompanyById(@PathVariable Long id) {
         return companyService.getCompanyById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ENDPOINT_NAME + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void overwriteCompanyById(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
         companyService.overwriteCompanyById(id, companyDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ENDPOINT_NAME + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompanyById(@PathVariable Long id) {
         companyService.deleteById(id);

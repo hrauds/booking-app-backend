@@ -9,34 +9,37 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/resource")
+@RequestMapping("/api")
 @AllArgsConstructor
 public class ResourceController {
 
     private ResourceService resourceService;
 
-    @PostMapping
-    public ResourceDto createHouse(@RequestBody ResourceDto resourceDto){
+    private static final String ENDPOINT_NAME = "/resource";
+    private static final String OPEN_ENDPOINT_PREFIX = "/open";
+
+    @PostMapping(ENDPOINT_NAME)
+    public ResourceDto createResource(@RequestBody ResourceDto resourceDto){
         return resourceService.createResource(resourceDto);
     }
 
-    @GetMapping
+    @GetMapping(OPEN_ENDPOINT_PREFIX + ENDPOINT_NAME)
     public List<ResourceDto> getAllResources() {
         return resourceService.getAllResources();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(OPEN_ENDPOINT_PREFIX + ENDPOINT_NAME + "/{id}")
     public ResourceDto getResourceById(@PathVariable Long id) {
         return resourceService.getResourceById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(ENDPOINT_NAME + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void overwriteResourceById(@PathVariable Long id, @RequestBody ResourceDto resourceDto) {
         resourceService.overwriteResourceById(id, resourceDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(ENDPOINT_NAME + "/{id}")
     public void deleteResourceById(@PathVariable Long id) {
         resourceService.deleteById(id);
     }

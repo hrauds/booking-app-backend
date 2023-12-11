@@ -8,10 +8,13 @@ import com.bookservice.gametimebooking.repository.ResourceRepository;
 import com.bookservice.gametimebooking.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ResourceService {
 
     private ResourceRepository resourceRepository;
@@ -27,7 +30,7 @@ public class ResourceService {
 
         service.addResource(resource);
 
-        return resourceMapper.toDto(resource);
+        return resourceMapper.toDto(resourceRepository.save(resource));
     }
 
     public List<ResourceDto> getAllResources() {
