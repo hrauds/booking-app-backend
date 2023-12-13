@@ -1,12 +1,13 @@
 package com.bookservice.gametimebooking.service;
 
 import com.bookservice.gametimebooking.dto.ResourceDto;
-import com.bookservice.gametimebooking.exceptions.ResourceNotFoundException;
+import com.bookservice.gametimebooking.exceptions.UserException;
 import com.bookservice.gametimebooking.mapper.ResourceMapper;
 import com.bookservice.gametimebooking.model.Resource;
 import com.bookservice.gametimebooking.repository.ResourceRepository;
 import com.bookservice.gametimebooking.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +25,7 @@ public class ResourceService {
 
     public ResourceDto createResource(ResourceDto resourceDto) {
         com.bookservice.gametimebooking.model.Service service = serviceRepository.findById(resourceDto.getServiceId())
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(RESOURCE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
 
         Resource resource = resourceMapper.toEntity(resourceDto);
 
@@ -41,13 +42,13 @@ public class ResourceService {
 
     public ResourceDto getResourceById(Long id) {
         Resource resource = resourceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(RESOURCE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
         return resourceMapper.toDto(resource);
     }
 
     public void overwriteResourceById(Long id, ResourceDto resourceDto) {
         Resource resource = resourceRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(RESOURCE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
 
         resource.setResourceName(resourceDto.getResourceName());
 
@@ -56,7 +57,7 @@ public class ResourceService {
 
     public void deleteById(Long id) {
         if (!resourceRepository.existsById(id)) {
-            throw new ResourceNotFoundException(RESOURCE_NOT_FOUND_ERROR_MESSAGE);
+            throw new UserException(RESOURCE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         resourceRepository.deleteById(id);
     }

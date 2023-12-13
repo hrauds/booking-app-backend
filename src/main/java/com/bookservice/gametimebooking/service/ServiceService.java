@@ -1,12 +1,13 @@
 package com.bookservice.gametimebooking.service;
 
 import com.bookservice.gametimebooking.dto.ServiceDto;
-import com.bookservice.gametimebooking.exceptions.ServiceNotFoundException;
+import com.bookservice.gametimebooking.exceptions.UserException;
 import com.bookservice.gametimebooking.mapper.ServiceMapper;
 import com.bookservice.gametimebooking.model.House;
 import com.bookservice.gametimebooking.repository.HouseRepository;
 import com.bookservice.gametimebooking.repository.ServiceRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ServiceService {
 
     public ServiceDto createService(ServiceDto serviceDto) {
         House house = houseRepository.findById(serviceDto.getHouseId())
-                .orElseThrow(() -> new ServiceNotFoundException(SERVICE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(SERVICE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
 
         com.bookservice.gametimebooking.model.Service service = serviceMapper.toEntity(serviceDto);
 
@@ -38,14 +39,14 @@ public class ServiceService {
 
     public ServiceDto getServiceById(Long id) {
         com.bookservice.gametimebooking.model.Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ServiceNotFoundException(SERVICE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(SERVICE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
 
         return serviceMapper.toDto(service);
     }
 
     public void overwriteServiceById(Long id, ServiceDto serviceDto) {
         com.bookservice.gametimebooking.model.Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new ServiceNotFoundException(SERVICE_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(SERVICE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
 
         service.setServiceName(serviceDto.getServiceName());
 
@@ -54,14 +55,14 @@ public class ServiceService {
 
     public void deleteById(Long id) {
         if (!serviceRepository.existsById(id)) {
-            throw new ServiceNotFoundException(SERVICE_NOT_FOUND_ERROR_MESSAGE);
+            throw new UserException(SERVICE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         serviceRepository.deleteById(id);
     }
 
     public List<ServiceDto> getServicesByHouseId(Long houseId) {
         if (!houseRepository.existsById(houseId)) {
-            throw new ServiceNotFoundException(SERVICE_NOT_FOUND_ERROR_MESSAGE);
+            throw new UserException(SERVICE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         List<com.bookservice.gametimebooking.model.Service> services = serviceRepository.findServicesByHouse_Id(houseId);
         return services.stream().map(serviceMapper::toDto).toList();
