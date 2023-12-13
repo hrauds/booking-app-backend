@@ -7,6 +7,7 @@ import com.bookservice.gametimebooking.model.House;
 import com.bookservice.gametimebooking.model.Company;
 import com.bookservice.gametimebooking.repository.HouseRepository;
 import com.bookservice.gametimebooking.repository.CompanyRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ public class HouseService {
     private CompanyRepository companyRepository;
     private HouseMapper houseMapper;
     private static final String HOUSE_NOT_FOUND_ERROR_MESSAGE = "House not found";
+    private final GeocodingService geocodingService;
 
     public HouseDto createHouse(HouseDto houseDto) {
         Company company = companyRepository.findById(houseDto.getCompanyId())
@@ -42,10 +44,12 @@ public class HouseService {
                 .toList();
     }
 
-    public HouseDto getHouseById(Long id) {
+    public HouseDto getHouseById(Long id) throws JsonProcessingException {
         House house = houseRepository.findById(id)
                 .orElseThrow(() -> new HouseNotFoundException(HOUSE_NOT_FOUND_ERROR_MESSAGE));
-        return houseMapper.toDto(house);
+        HouseDto houseDto = houseMapper.toDto(house);
+        houseDto.setAddress(houseDto.getAddress() + " " + geocodingService.getCoordinates(house.getAddress()));
+        return houseDto;
     }
 
     public void overwriteHouseById(Long id, HouseDto houseDto) {
