@@ -1,11 +1,12 @@
 package com.bookservice.gametimebooking.service;
 
 import com.bookservice.gametimebooking.dto.CompanyDto;
-import com.bookservice.gametimebooking.exceptions.CompanyNotFoundException;
+import com.bookservice.gametimebooking.exceptions.UserException;
 import com.bookservice.gametimebooking.mapper.CompanyMapper;
 import com.bookservice.gametimebooking.model.Company;
 import com.bookservice.gametimebooking.repository.CompanyRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,20 +35,20 @@ public class CompanyService {
 
     public CompanyDto getCompanyById(Long id) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(COMPANY_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
         return companyMapper.toDto(company);
     }
 
     public void overwriteCompanyById(Long id, CompanyDto companyDto) {
         Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE));
+                .orElseThrow(() -> new UserException(COMPANY_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
         companyMapper.partialUpdate(company, companyDto);
         companyRepository.save(company);
     }
 
     public void deleteById(Long id) {
         if (!companyRepository.existsById(id)) {
-            throw new CompanyNotFoundException(COMPANY_NOT_FOUND_ERROR_MESSAGE);
+            throw new UserException(COMPANY_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         companyRepository.deleteById(id);
     }
