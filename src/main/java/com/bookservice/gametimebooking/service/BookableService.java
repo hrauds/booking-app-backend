@@ -6,6 +6,7 @@ import com.bookservice.gametimebooking.model.Resource;
 import com.bookservice.gametimebooking.repository.BookableRepository;
 import com.bookservice.gametimebooking.repository.ResourceRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class BookableService {
 
     private final BookableRepository bookableRepository;
@@ -30,11 +32,13 @@ public class BookableService {
 
         LocalDate bookableDate = LocalDate.parse(date);
         if (bookableRepository.existsByResourceAndDate(resource, bookableDate)) {
+            log.error("Bookable time corresponding to provided date already exists");
             throw new UserException("Bookable time corresponding to provided date exists", HttpStatus.CONFLICT);
         }
         bookable.setDate(bookableDate);
 
         if (LocalTime.parse(startTime).isAfter(LocalTime.parse(endTime))) {
+            log.error("Start time was not before end time");
             throw new UserException("Start time should be before end time", HttpStatus.BAD_REQUEST);
         }
         bookable.setStartTime(LocalTime.parse(startTime));
@@ -43,6 +47,7 @@ public class BookableService {
         resource.addBookable(bookable);
         bookable.setResource(resource);
 
+        log.info("Bookable was saved");
         bookableRepository.save(bookable);
     }
 }

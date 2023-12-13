@@ -6,6 +6,7 @@ import com.bookservice.gametimebooking.mapper.CustomerMapper;
 import com.bookservice.gametimebooking.model.Customer;
 import com.bookservice.gametimebooking.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class CustomerService {
 
     private CustomerRepository customerRepository;
@@ -24,12 +26,14 @@ public class CustomerService {
     public CustomerDto addCustomer(CustomerDto customerDto) {
         Customer newCustomer = customerMapper.toEntity(customerDto);
         customerRepository.save(newCustomer);
+        log.info("Customer was successfully saved");
         return customerMapper.toDto(newCustomer);
     }
 
     public CustomerDto getCustomer(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new UserException(CUSTOMER_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
+        log.info("Customer was successfully found");
         return customerMapper.toDto(customer);
     }
 
@@ -44,6 +48,7 @@ public class CustomerService {
                 .orElseThrow(() -> new UserException(CUSTOMER_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
         customerMapper.partialUpdate(customer, customerDto);
         customerRepository.save(customer);
+        log.info("Customer was successfully updated and saved");
     }
 
     public void deleteCustomer(Long id) {
@@ -51,5 +56,6 @@ public class CustomerService {
             throw new UserException(CUSTOMER_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         customerRepository.deleteById(id);
+        log.info("Customer was successfully deleted");
     }
 }

@@ -11,7 +11,9 @@ import com.bookservice.gametimebooking.repository.BookingRepository;
 import com.bookservice.gametimebooking.repository.CustomerRepository;
 import com.bookservice.gametimebooking.repository.ResourceRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class BookingService {
 
     private final ResourceRepository resourceRepository;
@@ -57,6 +60,7 @@ public class BookingService {
 
             bookingInfoDtos.add(bookingInfoDto);
         }
+        log.info("Successfully returning booking info");
         return bookingInfoDtos;
     }
 
@@ -82,9 +86,11 @@ public class BookingService {
         booking.setResource(resource);
 
         bookingRepository.save(booking);
+        log.info("Booking was successfully saved");
     }
 
     public void deleteBooking(Long bookingId) {
         bookingRepository.deleteById(bookingId);
+        log.info("Booking was successfully deleted");
     }
 }

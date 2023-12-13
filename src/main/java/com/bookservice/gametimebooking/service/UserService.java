@@ -9,6 +9,7 @@ import com.bookservice.gametimebooking.model.User;
 import com.bookservice.gametimebooking.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class UserService {
 
     private UserRepository userRepository;
@@ -27,6 +29,7 @@ public class UserService {
         User user = userMapper.toEntity(userDto);
         user.setPasswordHash(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
+        log.info("User was successfully created");
     }
 
     public String login(UserDto userDto) {
@@ -36,13 +39,14 @@ public class UserService {
             return generateToken(userDto);
         }
         else {
+            log.error("Provided password was wrong");
             throw new UserException("Wrong password provided", HttpStatus.UNAUTHORIZED);
         }
     }
 
     private String generateToken(UserDto userDto) {
         Algorithm algorithm = Algorithm.HMAC512("not-a-secret-anymore");
-
+        log.info("Generating a token for user");
         return JWT.create()
                 .withSubject(userDto.getEmail())
                 .withExpiresAt(new Date((new Date()).getTime() + 1000000))

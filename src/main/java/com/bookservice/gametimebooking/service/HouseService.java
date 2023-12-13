@@ -9,6 +9,7 @@ import com.bookservice.gametimebooking.repository.HouseRepository;
 import com.bookservice.gametimebooking.repository.CompanyRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class HouseService {
 
     private HouseRepository houseRepository;
@@ -36,6 +38,7 @@ public class HouseService {
 
         houseRepository.save(house);
 
+        log.info("House was successfully saved");
         return houseMapper.toDto(house);
     }
 
@@ -50,6 +53,7 @@ public class HouseService {
                 .orElseThrow(() -> new UserException(HOUSE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
         HouseDto houseDto = houseMapper.toDto(house);
         houseDto.setAddress(houseDto.getAddress() + " " + geocodingService.getCoordinates(house.getAddress()));
+        log.info("House was successfully found");
         return houseDto;
     }
 
@@ -60,6 +64,7 @@ public class HouseService {
         house.setAddress(houseDto.getAddress());
 
         houseRepository.save(house);
+        log.info("House was successfully updated and saved");
     }
 
     public void deleteById(Long id) {
@@ -67,5 +72,6 @@ public class HouseService {
             throw new UserException(HOUSE_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);
         }
         houseRepository.deleteById(id);
+        log.info("House was successfully deleted");
     }
 }

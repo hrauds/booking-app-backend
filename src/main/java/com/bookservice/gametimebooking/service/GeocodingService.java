@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class GeocodingService {
 
     @Value("${google.maps.api.key}")
@@ -20,6 +22,7 @@ public class GeocodingService {
     RestTemplate restTemplate = new RestTemplate();
 
     public String getCoordinates(String address) throws JsonProcessingException {
+        log.info("Starting to fetch coordinates from address");
         String url = String.format("%s?address=%s&key=%s", geocodingApiUrl, address, apiKey);
         String response = restTemplate.getForObject(url, String.class);
 
@@ -32,9 +35,10 @@ public class GeocodingService {
         if (!locationNode.isEmpty()) {
             double lat = locationNode.get("lat").asDouble();
             double lng = locationNode.get("lng").asDouble();
+            log.info("Coordinates were successfully found");
             return ", Lat: " + lat + "   " + "Lng: " + lng;
         }
-
+        log.info("No coordinates were found");
         return "";
     }
 }

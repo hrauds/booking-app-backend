@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,12 +27,15 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
+@Slf4j
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
+
+        log.info("Starting custom filtering process");
 
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -45,6 +49,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String email = getEmailFromToken(token);
 
         if (!userRepository.existsByEmail(email)) {
+            log.error("Currently logged user was deleted meanwhile");
             throw new UserException("User was deleted", HttpStatus.NOT_FOUND);
         }
 
