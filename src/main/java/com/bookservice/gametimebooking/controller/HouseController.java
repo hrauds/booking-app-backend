@@ -2,6 +2,7 @@ package com.bookservice.gametimebooking.controller;
 
 import com.bookservice.gametimebooking.dto.HouseDto;
 import com.bookservice.gametimebooking.service.HouseService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +30,7 @@ public class HouseController {
     }
 
     @GetMapping(OPEN_ENDPOINT_PREFIX + ENDPOINT_NAME + "/{id}")
-    public HouseDto getHouseById(@PathVariable Long id) {
+    public HouseDto getHouseById(@PathVariable Long id) throws JsonProcessingException {
         return houseService.getHouseById(id);
     }
 
