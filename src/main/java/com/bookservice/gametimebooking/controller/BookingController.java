@@ -1,5 +1,6 @@
 package com.bookservice.gametimebooking.controller;
 
+import com.bookservice.gametimebooking.dto.BookingDto;
 import com.bookservice.gametimebooking.dto.BookingInfoDto;
 import com.bookservice.gametimebooking.service.BookingService;
 import lombok.AllArgsConstructor;
@@ -36,8 +37,17 @@ public class BookingController {
     }
 
     @DeleteMapping(ENDPOINT_NAME + "/{bookingId}")
-    private void deleteBooking(@PathVariable Long bookingId) {
+    public void deleteBooking(@PathVariable Long bookingId) {
         log.info("Request to delete a booking");
         bookingService.deleteBooking(bookingId);
+    }
+
+    @GetMapping(OPEN_ENDPOINT_PREFIX + ENDPOINT_NAME + "/customize")
+    public List<BookingDto> getCustomizedBookedTimes(@RequestParam(defaultValue = "0") int page,
+                                                     @RequestParam(defaultValue = "10") int size,
+                                                     @RequestParam(defaultValue = "id") String property,
+                                                     @RequestParam(defaultValue = "ASC") String dir,
+                                                     @RequestParam(defaultValue = "1900-12-14T12:30:00") String fromStartDate) {
+        return bookingService.getCustomizedBookedTimes(page, size, property, dir, fromStartDate);
     }
 }
