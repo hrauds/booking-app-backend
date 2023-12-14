@@ -1,7 +1,9 @@
 package com.bookservice.gametimebooking.service;
 
+import com.bookservice.gametimebooking.dto.BookingDto;
 import com.bookservice.gametimebooking.dto.BookingInfoDto;
 import com.bookservice.gametimebooking.exceptions.UserException;
+import com.bookservice.gametimebooking.mapper.BookingMapper;
 import com.bookservice.gametimebooking.model.Bookable;
 import com.bookservice.gametimebooking.model.Booking;
 import com.bookservice.gametimebooking.model.Customer;
@@ -12,12 +14,16 @@ import com.bookservice.gametimebooking.repository.CustomerRepository;
 import com.bookservice.gametimebooking.repository.ResourceRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +38,7 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final BookableRepository bookableRepository;
     private final CustomerRepository customerRepository;
+    private final BookingMapper bookingMapper;
 
     public List<BookingInfoDto> getBookedTimesAtDate(Long serviceId, String date) {
 
@@ -92,5 +99,13 @@ public class BookingService {
     public void deleteBooking(Long bookingId) {
         bookingRepository.deleteById(bookingId);
         log.info("Booking was successfully deleted");
+    }
+
+    public List<BookingDto> getCustomizedBookedTimes(int page, int size, String property, String dir, String startTime) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(dir), property));
+        Page<Booking> bookingPage = bookingRepository.findByStartTimeAfter(LocalDateTime.parse(startTime), pageable);
+        return bookingPage.stream()
+                .map(bookingMapper::toDto)
+                .toList();
     }
 }
