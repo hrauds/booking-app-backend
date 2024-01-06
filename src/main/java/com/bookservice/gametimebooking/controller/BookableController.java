@@ -33,4 +33,10 @@ public class BookableController {
         log.info("Request to get bookables for a service and date");
         return bookableService.getBookablesForServiceAndDate(serviceId, date);
     }
+
+    @DeleteMapping(OPEN_ENDPOINT_PREFIX + ENDPOINT_NAME + "/{bookableId}")
+    public void deleteBookable(@PathVariable Long bookableId) {
+        log.info("Deleting Bookable process begin");
+        bookableService.deleteBookable(bookableId);
+    }
 }

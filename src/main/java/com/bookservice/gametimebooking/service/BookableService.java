@@ -64,7 +64,11 @@ public class BookableService {
             List<Bookable> bookablesForResource = bookableRepository.findByResourceIdAndDate(resource.getId(), LocalDate.parse(date));
             result.addAll(bookablesForResource.stream().map(bookableMapper::toDto).toList());
         }
-
         return result;
+    }
+
+    public void deleteBookable(Long bookableId) {
+        log.info("Deleted bookable with id:" + bookableId);
+        bookableRepository.deleteById(bookableId);
     }
 }

@@ -25,10 +25,18 @@ public class CustomerService {
 
     public CustomerDto addCustomer(CustomerDto customerDto) {
         Customer newCustomer = customerMapper.toEntity(customerDto);
+
+        Customer existingCustomer = customerRepository.findByEmail(newCustomer.getEmail());
+
+        if (existingCustomer != null) {
+            log.info("Customer already exists");
+            return customerMapper.toDto(existingCustomer);
+        }
         customerRepository.save(newCustomer);
-        log.info("Customer was successfully saved");
+        log.info("Customer was created");
         return customerMapper.toDto(newCustomer);
     }
+
 
     public CustomerDto getCustomer(Long id) {
         Customer customer = customerRepository.findById(id)

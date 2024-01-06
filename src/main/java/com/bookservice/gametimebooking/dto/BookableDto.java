@@ -25,5 +25,5 @@ public class BookableDto {
 
     private String serviceName;
 
-    private String address;
+    private String resourceName;
 }

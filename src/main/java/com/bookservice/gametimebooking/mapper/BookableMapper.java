@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 public interface BookableMapper {
 
     @Mapping(source = "resource.id", target = "resourceId")
+    @Mapping(source = "resource.resourceName", target = "resourceName")
     @Mapping(source = "resource.service.serviceName", target = "serviceName")
-    @Mapping(source = "resource.service.house.address", target = "address")
 
     BookableDto toDto(Bookable entity);
 }
