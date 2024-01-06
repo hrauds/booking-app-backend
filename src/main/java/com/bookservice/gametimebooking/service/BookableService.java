@@ -1,6 +1,8 @@
 package com.bookservice.gametimebooking.service;
 
+import com.bookservice.gametimebooking.dto.BookableDto;
 import com.bookservice.gametimebooking.exceptions.UserException;
+import com.bookservice.gametimebooking.mapper.BookableMapper;
 import com.bookservice.gametimebooking.model.Bookable;
 import com.bookservice.gametimebooking.model.Resource;
 import com.bookservice.gametimebooking.repository.BookableRepository;
@@ -13,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -22,6 +26,7 @@ public class BookableService {
 
     private final BookableRepository bookableRepository;
     private final ResourceRepository resourceRepository;
+    private BookableMapper bookableMapper;
 
     public void addBookableForResource(Long resourceId, String date, String startTime, String endTime) {
 
@@ -49,5 +54,17 @@ public class BookableService {
 
         log.info("Bookable was saved");
         bookableRepository.save(bookable);
+    }
+
+    public List<BookableDto> getBookablesForServiceAndDate(Long serviceId, String date) {
+        List<Resource> resources = resourceRepository.findAllByServiceId(serviceId);
+
+        List<BookableDto> result = new ArrayList<>();
+        for (Resource resource : resources) {
+            List<Bookable> bookablesForResource = bookableRepository.findByResourceIdAndDate(resource.getId(), LocalDate.parse(date));
+            result.addAll(bookablesForResource.stream().map(bookableMapper::toDto).toList());
+        }
+
+        return result;
     }
 }

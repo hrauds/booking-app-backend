@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,6 @@ public interface BookableRepository extends JpaRepository<Bookable, Long> {
     boolean existsByResourceAndDate(Resource resource, LocalDate date);
 
     Optional<Bookable> findByDateAndResource(LocalDate date, Resource resource);
+
+    List<Bookable> findByResourceIdAndDate(Long resourceId, LocalDate parse);
 }
