@@ -11,8 +11,12 @@ import org.springframework.stereotype.Component;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface BookingMapper {
 
+    @Mapping(source = "id", target = "id")
     @Mapping(source = "resource.id", target = "resourceId")
     @Mapping(source = "resource.service.serviceName", target = "serviceName")
     @Mapping(source = "resource.service.house.address", target = "address")
+
     BookingDto toDto(Booking entity);
+
+
 }
