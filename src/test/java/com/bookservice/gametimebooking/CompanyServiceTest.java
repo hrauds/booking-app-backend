@@ -12,6 +12,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
@@ -48,18 +51,47 @@ public class CompanyServiceTest {
 
     @Test
     void getAllCompaniesSuccess() {
+        Company company = new Company();
+        CompanyDto companyDto = new CompanyDto();
 
+        when(companyRepository.findAll()).thenReturn(List.of(company));
+        when(companyMapper.toDto(Mockito.any(Company.class))).thenReturn(companyDto);
+
+        List<CompanyDto> result = companyService.getAllCompanies();
+
+        verify(companyRepository, times(1)).findAll();
+        verify(companyMapper, times(1)).toDto(company);
+
+        assertThat(result).containsExactly(companyDto);
     }
 
     @Test
     void getCompanyByIdSuccess() {
-    }
+        Long mockId = 1L;
+        Company company = new Company();
+        CompanyDto companyDto = new CompanyDto();
 
-    @Test
-    void overwriteCompanyByIdSuccess() {
+        when(companyRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(company));
+        when(companyMapper.toDto(Mockito.any(Company.class))).thenReturn(companyDto);
+
+        CompanyDto result = companyService.getCompanyById(mockId);
+
+        verify(companyRepository, times(1)).findById(mockId);
+        verify(companyMapper, times(1)).toDto(company);
+
+        assertThat(result).isEqualTo(companyDto);
     }
 
     @Test
     void deleteByIdSuccess() {
+        Long mockId = 1L;
+
+        when(companyRepository.existsById(Mockito.any(Long.class))).thenReturn(true);
+        doNothing().when(companyRepository).deleteById(Mockito.anyLong());
+
+        companyService.deleteById(mockId);
+
+        verify(companyRepository, times(1)).existsById(mockId);
+        verify(companyRepository, times(1)).deleteById(mockId);
     }
 }

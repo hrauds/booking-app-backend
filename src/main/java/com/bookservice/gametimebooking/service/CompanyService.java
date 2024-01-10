@@ -43,14 +43,6 @@ public class CompanyService {
         return companyMapper.toDto(company);
     }
 
-    public void overwriteCompanyById(Long id, CompanyDto companyDto) {
-        Company company = companyRepository.findById(id)
-                .orElseThrow(() -> new UserException(COMPANY_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
-        companyMapper.partialUpdate(company, companyDto);
-        companyRepository.save(company);
-        log.info("Company was successfully updated and saved");
-    }
-
     public void deleteById(Long id) {
         if (!companyRepository.existsById(id)) {
             throw new UserException(COMPANY_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);

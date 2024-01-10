@@ -38,13 +38,6 @@ public class CustomerController {
         return customerService.getCustomer(id);
     }
 
-    @PutMapping(ENDPOINT_NAME + "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) {
-        log.info("Request to update a Customer by id");
-        customerService.updateCustomer(id, customerDto);
-    }
-
     @DeleteMapping(ENDPOINT_NAME + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCustomer(@PathVariable Long id) {
