@@ -51,14 +51,6 @@ public class CustomerService {
                 .toList();
     }
 
-    public void updateCustomer(Long id, CustomerDto customerDto) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new UserException(CUSTOMER_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND));
-        customerMapper.partialUpdate(customer, customerDto);
-        customerRepository.save(customer);
-        log.info("Customer was successfully updated and saved");
-    }
-
     public void deleteCustomer(Long id) {
         if (!customerRepository.existsById(id)) {
             throw new UserException(CUSTOMER_NOT_FOUND_ERROR_MESSAGE, HttpStatus.NOT_FOUND);

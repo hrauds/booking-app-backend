@@ -38,13 +38,6 @@ public class CompanyController {
         return companyService.getCompanyById(id);
     }
 
-    @PutMapping(ENDPOINT_NAME + "/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void overwriteCompanyById(@PathVariable Long id, @RequestBody CompanyDto companyDto) {
-        log.info("Request to overwrite a company by id");
-        companyService.overwriteCompanyById(id, companyDto);
-    }
-
     @DeleteMapping(ENDPOINT_NAME + "/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompanyById(@PathVariable Long id) {
