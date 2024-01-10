@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookingDto {
 
+    private Long id;
+
     private String startTime;
 
     private String endTime;
@@ -16,4 +18,5 @@ public class BookingDto {
     private String serviceName;
 
     private String address;
+
 }
