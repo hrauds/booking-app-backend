@@ -41,7 +41,7 @@ Navigate to the project directory:
 
 `cd [project folder]`
 
-Locate `application.properties` in the `src/main/resources/`  directory and fill it with the correct database connection data and other necessary configurations.
+Locate `application.properties` in the `src/main/resources/` directory and `docker-compose.yml`. Then fill them with the correct database connection information and other necessary configurations.
 
 Build the project (this will also download the necessary dependencies):
 
