@@ -1,5 +1,4 @@
-
-#Installation Guide
+# Installation Guide
 
 ## Frontend Setup
 
@@ -42,7 +41,9 @@ Build the project (this will also download the necessary dependencies):
 
 `mvn clean install`
 
-Run `docker-compose up -d`
+Start Docker: 
+
+`docker-compose up -d`
 
 Run the application:
 
