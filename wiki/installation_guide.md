@@ -37,6 +37,8 @@ Navigate to the project directory:
 
 Locate `application.properties` in the `src/main/resources/` directory and `docker-compose.yml`. Then fill them with the correct database connection information and other necessary configurations.
 
+Remove `Dockerfile`.
+
 Build the project (this will also download the necessary dependencies):
 
 `mvn clean install`
