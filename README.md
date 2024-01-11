@@ -20,7 +20,7 @@ want to book, and the business can provide whatever they want for booking.
 - Spring Security 6.2.0
 - Liquibase 4.23.0
 - Lombok 1.18.30
-- Springdoc-OpenApi 1.6.12
+- Springdoc-OpenApi 2.0.2
 
 ## Setting up the development environment
 
