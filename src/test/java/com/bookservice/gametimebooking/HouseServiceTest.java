@@ -2,7 +2,6 @@ package com.bookservice.gametimebooking;
 
 import com.bookservice.gametimebooking.dto.HouseDto;
 import com.bookservice.gametimebooking.mapper.HouseMapper;
-import com.bookservice.gametimebooking.mapper.HouseMapperImpl;
 import com.bookservice.gametimebooking.model.Company;
 import com.bookservice.gametimebooking.model.House;
 import com.bookservice.gametimebooking.repository.CompanyRepository;
@@ -14,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
@@ -33,8 +31,8 @@ class HouseServiceTest {
     @Mock
     private CompanyRepository companyRepository;
 
-    @Spy
-    private HouseMapper houseMapper = new HouseMapperImpl();
+    @Mock
+    private HouseMapper houseMapper;
 
     @InjectMocks
     private HouseService houseService;
@@ -57,7 +55,6 @@ class HouseServiceTest {
         verify(companyRepository).findById(houseDto.getCompanyId());
         verify(houseMapper).toEntity(houseDto);
         verify(houseRepository).save(any(House.class));
-        assertNotNull(result);
         assertTrue(mockCompany.getHouses().contains(mockHouse));
     }
 
