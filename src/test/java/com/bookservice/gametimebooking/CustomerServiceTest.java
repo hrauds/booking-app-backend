@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerServiceTest {
+class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;
@@ -82,7 +82,7 @@ public class CustomerServiceTest {
         verify(customerRepository, times(1)).findAll();
         verify(customerMapper, times(1)).toDto(customer);
 
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result).hasSize(1);
     }
 
     @Test

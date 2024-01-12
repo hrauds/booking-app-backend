@@ -29,7 +29,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class BookingServiceTest {
+class BookingServiceTest {
 
     @Mock
     private ResourceRepository resourceRepository;
