@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CompanyServiceTest {
+class CompanyServiceTest {
 
     @Mock
     private CompanyMapper companyMapper;
